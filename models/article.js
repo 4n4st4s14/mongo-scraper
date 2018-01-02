@@ -1,1 +1,1 @@
-module.exports = Article;
+// module.exports = Article;
