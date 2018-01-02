@@ -35,6 +35,17 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+//scrape route
+app.get("/scrape", function(req,res){
+
+  axios.get("https://www.residentadvisor.net/news.aspx").then(function(res) {
+    // Then, we load that into cheerio and save it to $ for a shorthand selector
+    var $ = cheerio.load(res.data);
+    console.log(res.data);
+  });
+
+})
+
 
 app.listen(PORT, function(){
   console.log("App running on port " + PORT + " !");
