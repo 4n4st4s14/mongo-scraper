@@ -109,7 +109,7 @@ app.post("/save/:id", function(req, res){
 
 //post a Note
 app.post("/note/:id", function(req,res){
-  let note = new Note(req.body);
+  let note = new db.Note(req.body);
   note.save(function(err, doc){
     if (err) throw err;
     db.Article.findByIdAndUpdate(req.params.id, {$set: {"note": doc._id}}, {new: true}, function(err,newdoc){
