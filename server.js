@@ -82,6 +82,52 @@ else {
 
 });
 
+//saved route
+app.get("/saved", function(req,res){
+  db.Article.find({issaved: true}, null, {sort: {created: 1}}, function(err,data){
+    res.render("saved", {saved: data});
+  });
+});
+
+//get article by id route
+app.get("/:id", function(req,res){
+  db.Article.findById(req.params.id, function(err,data){
+    res.json(data);
+  })
+})
+
+//save an article
+app.post("/save/:id", function(req, res){
+  db.Article.findById(req.params.id, function(err,data){
+    if(data.issaved) {
+      Article.findByIdAndUpdate(req.params.id, {$set: {issaved: false, status: "Save Article"}}, {new: true}, function(err,data){
+        res.redirect("/saved");
+      });
+    };
+  });
+});
+
+//post a Note
+app.post("/note/:id", function(req,res){
+  let note = new Note(req.body);
+  note.save(function(err, doc){
+    if (err) throw err;
+    db.Article.findByIdAndUpdate(req.params.id, {$set: {"note": doc._id}}, {new: true}, function(err,newdoc){
+      if(err) throw err;
+      else {
+        res.send(newdoc);
+      };
+    });
+  });
+});
+
+//get not by id
+app.get("/note/:id", function(req,res){
+  var id = req.params.id;
+  db.Article.findById(id).populate("note").exec(function(err,data){
+    res.send(data.note);
+  });
+});
 
 
 
