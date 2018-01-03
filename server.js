@@ -84,7 +84,7 @@ else {
 
 //saved route
 app.get("/saved", function(req,res){
-  db.Article.find({issaved: true}, null, {sort: {created: 1}}, function(err,data){
+  db.Article.find({issaved: true}, null, function(err,data){
     res.render("saved", {saved: data});
   });
 });
@@ -98,12 +98,18 @@ app.get("/:id", function(req,res){
 
 //save an article
 app.post("/save/:id", function(req, res){
-  db.Article.findById(req.params.id, function(err,data){
+  let id = req.params.id;
+  console.log(id);
+  db.Article.findById(id, function(err,data){
     if(data.issaved) {
-      Article.findByIdAndUpdate(req.params.id, {$set: {issaved: false, status: "Save Article"}}, {new: true}, function(err,data){
+      db.Article.findByIdAndUpdate(id, {$set: {issaved: false, status: "Save Article"}}, {new: true}, function(err,data){
         res.redirect("/saved");
       });
-    };
+    } else {
+      db.Article.findByIdAndUpdate(req.params.id, {$set: {issaved: true, status: "Saved"}}, {new: true}, function(err, data) {
+				res.redirect("/saved");
+    })
+  };
   });
 });
 
