@@ -17,10 +17,11 @@ $('#scraper').click(() => {
 });
 
 //function to add Note
-shownote = event => {
+function shownote(event){
   event.preventDefault();
 
   let id = $(this).attr('value');
+  console.log(id);
   $("#addnote").fadeIn(100).css("display", "flex");
   $("#add-note").attr("value", id);
   $.get("/" + id, function(data) {
@@ -34,10 +35,12 @@ shownote = event => {
   });
 };
 
-addnote = event => {
+function addnote(event){
+  console.log("addnote");
   event.preventDefault();
-  let id = $(this).attr("value");
-  let obj = {
+  var id = $(this).attr("value");
+  console.log(id);
+  var obj = {
     title: $("#note-title").val().trim(),
     body: $("#note-body").val().trim()
   };

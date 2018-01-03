@@ -22,7 +22,7 @@ app.use(express.static("public"));
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/nytscraper");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nytscraper");
 
 
 var PORT = process.env.PORT || 3000;
@@ -113,21 +113,21 @@ app.post("/save/:id", function(req, res){
   });
 });
 
-//post a Note
+//create a Note
 app.post("/note/:id", function(req,res){
   let note = new db.Note(req.body);
-  note.save(function(err, doc){
+  note.save(function(err, note){
     if (err) throw err;
-    db.Article.findByIdAndUpdate(req.params.id, {$set: {"note": doc._id}}, {new: true}, function(err,newdoc){
+    db.Article.findByIdAndUpdate(req.params.id, {$set: {"note": note._id}}, {new: true}, function(err,newnote){
       if(err) throw err;
       else {
-        res.send(newdoc);
+        res.send(newnote);
       };
     });
   });
 });
 
-//get not by id
+//get note by id
 app.get("/note/:id", function(req,res){
   var id = req.params.id;
   db.Article.findById(id).populate("note").exec(function(err,data){
