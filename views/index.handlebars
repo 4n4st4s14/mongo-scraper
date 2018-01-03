@@ -1,7 +1,7 @@
 {{#each articles}}
   <div class="row">
     <div class="col-md-9 offset-md-1">
-      <img src="{{ this.img }}">
+      <img style="max-height: 120px;"src="{{ this.img }}">
       <a href="{{ this.link }}"><h3>{{ this.title }}</h3></a>
       <p>{{ this.summary }}</p>
       <button type="button" class="btn btn-primary">Save Article</button>
