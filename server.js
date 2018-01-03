@@ -22,7 +22,7 @@ app.use(express.static("public"));
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/nytscraper");
+mongoose.connect(var MONGODB_URI=process.env.MONGODB_URI || "mongodb://localhost/nytscraper");
 
 
 var PORT = process.env.PORT || 3000;
